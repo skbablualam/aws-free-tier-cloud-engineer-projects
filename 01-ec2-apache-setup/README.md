@@ -16,3 +16,10 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 echo "Hello from Bablu - Cloud Engineer!" > /var/www/html/index.html
 ```
+4. Accessed the public IP in browser to view the page.
+
+📸 Screenshot
+
+✅ Outcome
+Successfully hosted Apache page via EC2.
+
