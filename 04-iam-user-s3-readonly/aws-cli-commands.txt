@@ -1,1 +1,3 @@
-
+aws iam create-policy \
+  --policy-name S3ReadOnlyAccessCustom \
+  --policy-document file://policy.json
