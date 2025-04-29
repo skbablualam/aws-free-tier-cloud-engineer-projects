@@ -1,1 +1,26 @@
+# Create VPC
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
 
+# Create subnets
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.1.0/24 --availability-zone us-east-1a
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.2.0/24 --availability-zone us-east-1b
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.3.0/24 --availability-zone us-east-1a
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.4.0/24 --availability-zone us-east-1b
+
+# Create Internet Gateway and attach to VPC
+aws ec2 create-internet-gateway
+aws ec2 attach-internet-gateway --vpc-id <vpc-id> --internet-gateway-id <igw-id>
+
+# Create Route Table for public subnet
+aws ec2 create-route-table --vpc-id <vpc-id>
+aws ec2 associate-route-table --route-table-id <rtb-id> --subnet-id <public-subnet-id>
+aws ec2 create-route --route-table-id <rtb-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <igw-id>
+
+# Allocate Elastic IP & Create NAT Gateway in Public Subnet
+aws ec2 allocate-address --domain vpc
+aws ec2 create-nat-gateway --subnet-id <public-subnet-id> --allocation-id <eip-alloc-id>
+
+# Create Route Table for private subnet and route through NAT
+aws ec2 create-route-table --vpc-id <vpc-id>
+aws ec2 associate-route-table --route-table-id <private-rtb-id> --subnet-id <private-subnet-id>
+aws ec2 create-route --route-table-id <private-rtb-id> --destination-cidr-block 0.0.0.0/0 --nat-gateway-id <nat-gateway-id>
