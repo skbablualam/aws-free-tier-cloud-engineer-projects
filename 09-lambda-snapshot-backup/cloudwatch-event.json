@@ -1,1 +1,10 @@
+{
+  "source": [
+    "aws.events"
+  ],
+  "detail-type": [
+    "Scheduled Event"
+  ],
+  "detail": {}
+}
 
